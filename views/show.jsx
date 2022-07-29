@@ -18,7 +18,7 @@ function Show ({bread, index}) {
             have gluten.
           </p>
           <form action={`/breads/${index}?_method=DELETE`} method="POST">
-  <input type='submit' value="DELETE"/>
+          <input type='submit' value="DELETE"/>
 </form>
           <img src={bread.image} alt={bread.name} />
           <li><a href="/breads">Go Home</a></li>
