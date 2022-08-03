@@ -4,13 +4,17 @@ const Bread = require('../models/bread.js')
 
 // INDEX
 breads.get('/', (req, res) => {
-  res.render('index',
-  {
-    breads: Bread,
-    title: 'Index Page'
+  Bread.find()
+  .then(foundBreads=>{
+    console.log(foundBreads)
+  })
+  //res.render('index',
+  //{
+  //  breads: Bread,
+  //  title: 'Index Page'
   
-  }
-  )
+//  }
+//  )
 
 })
 
@@ -33,6 +37,14 @@ breads.get('/new', (req, res) => {
   res.render('new')
 })
 
+// EDIT
+breads.get('/:indexArray/edit', (req, res) => {
+  res.render('edit', {
+    bread: Bread[req.params.indexArray],
+    index: req.params.indexArray
+  })
+})
+
 // UPDATE
 breads.put('/:arrayIndex', (req, res) => {
   if(req.body.hasGluten === 'on'){
@@ -44,18 +56,13 @@ breads.put('/:arrayIndex', (req, res) => {
   res.redirect(`/breads/${req.params.arrayIndex}`)
 })
 
-// EDIT
-breads.get('/:indexArray/edit', (req, res) => {
-  res.render('edit', {
-    bread: Bread[req.params.indexArray],
-    index: req.params.indexArray
-  })
-})
-
-
 
 // DELETE
 breads.delete('/:indexArray', (req, res) => {
+  Bread.findByIdAndDelete(req.params.id)
+  .then (deletedBread =>{
+    res.status(303).redirect('/breads')
+  })
   Bread.splice(req.params.indexArray, 1)
   res.status(303).redirect('/breads')
 })
@@ -63,6 +70,7 @@ breads.delete('/:indexArray', (req, res) => {
 // SHOW
 
 breads.get('/:arrayIndex', (req, res) => {
+  console.log ('array test',req.params.arrayIndex)
     if (Bread[req.params.arrayIndex]) {
       res.render('Show', {
         bread:Bread[req.params.arrayIndex],
