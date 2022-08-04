@@ -6,6 +6,10 @@ const Bread = require('../models/bread.js')
 breads.get('/', (req, res) => {
   Bread.find()
   .then(foundBreads=>{
+    res.render('index', {
+      bread: foundBreads,
+      title: 'Index Page'
+    })
     console.log(foundBreads)
   })
   //res.render('index',
@@ -68,17 +72,17 @@ breads.delete('/:indexArray', (req, res) => {
 })
 
 // SHOW
-
-breads.get('/:arrayIndex', (req, res) => {
-  console.log ('array test',req.params.arrayIndex)
-    if (Bread[req.params.arrayIndex]) {
-      res.render('Show', {
-        bread:Bread[req.params.arrayIndex],
-        index:req.params.arrayIndex,
-      })
-    } else {
-      res.send('404')
-    }
+breads.get('/:id', (req, res) => {
+  Bread.findById(req.params.id)
+  console.log(req.params.id, 'here')
+  .then(foundBread => {
+    res.render('show', {
+      bread: foundBread
+    })
+  })
+  .catch(err => {
+    res.send('404')
+  })
   })
   
   
