@@ -11,7 +11,6 @@ function Default(html) {
         <link rel="stylesheet" href="/main.css" />
 
       </head>
-
     <body>
      <div className="wrapper">
       <header>

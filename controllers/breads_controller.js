@@ -4,23 +4,13 @@ const Bread = require('../models/bread.js')
 
 // INDEX
 breads.get('/', (req, res) => {
-  Bread.find()
-  .then(foundBreads=>{
-    res.render('index', {
-      bread: foundBreads,
-      title: 'Index Page'
-    })
-    console.log(foundBreads)
-  })
-  //res.render('index',
-  //{
-  //  breads: Bread,
-  //  title: 'Index Page'
-  
-//  }
-//  )
-
-})
+  res.render('Index',
+  {
+      breads: Bread,
+      title:'Index Page'
+       }
+     )
+   })
 
 // CREATE
 breads.post('/', (req, res) => {
@@ -59,32 +49,46 @@ breads.put('/:arrayIndex', (req, res) => {
   Bread[req.params.arrayIndex] = req.body
   res.redirect(`/breads/${req.params.arrayIndex}`)
 })
-
-
-// DELETE
+// NEW DELETE
 breads.delete('/:indexArray', (req, res) => {
-  Bread.findByIdAndDelete(req.params.id)
-  .then (deletedBread =>{
-    res.status(303).redirect('/breads')
-  })
   Bread.splice(req.params.indexArray, 1)
   res.status(303).redirect('/breads')
 })
 
-// SHOW
-breads.get('/:id', (req, res) => {
-  Bread.findById(req.params.id)
-  console.log(req.params.id, 'here')
-  .then(foundBread => {
-    res.render('show', {
-      bread: foundBread
+// OLD DELETE
+//breads.delete('/:indexArray', (req, res) => {
+//  Bread.findByIdAndDelete(req.params.id)
+//  .then (deletedBread =>{
+//    res.status(303).redirect('/breads')
+//  })
+//  Bread.splice(req.params.indexArray, 1)
+//  res.status(303).redirect('/breads')
+//})
+
+// old SHOW
+//breads.get('/:id', (req, res) => {
+//  Bread.findById(req.params.id)
+//  console.log(req.params.id, 'here')
+//  .then(foundBread => {
+//    res.render('show', {
+//      bread: foundBread
+//    })
+//  })
+//  .catch(err => {
+//  res.send('404')
+//  })
+
+// New SHOW
+breads.get('/:arrayIndex', (req, res) => {
+  if (Bread[req.params.arrayIndex]) {
+    res.render('Show', {
+      bread:Bread[req.params.arrayIndex],
+      index: req.params.arrayIndex,
     })
-  })
-  .catch(err => {
-    res.send('404')
-  })
-  })
-  
-  
+  } else {
+    res.render('404')
+  }
+})
+
 
 module.exports = breads

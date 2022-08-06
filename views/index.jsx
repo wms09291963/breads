@@ -5,26 +5,21 @@ function Index ({breads, title}) {
     return (
       <Default title={title}>
         <h2>Index Page</h2>
-        {/*This is a JSX comment.*/}
-        {/* <p>I have {breads[0].name} bread!</p> */}
-        <ul>
+         <div className="newButton">
+           <a href="/breads/new"><button>Add a new bread</button></a>
+         </div>
             {
                 breads.map((bread, index)=> {
-                  console.log("breadtest",bread)
-                    return (
-                     <li key={bread.id}>
-                      <a href={`/breads/${bread.id}`}>
+                   return (
+                     <li key={index}>
+                      <a href={`/breads/${index}`}>
                         {bread.name}
                       </a>
                     </li>
                     )
                 })
             }
-        </ul>
-        <div className="newButton">
-         <a href="/breads/new"><button>Add a new bread</button></a>
-        </div>
-      </Default>
+        </Default>
     )
 }
 
